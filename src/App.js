@@ -11,20 +11,11 @@ function App() {
   const [lists, setLists] = useState([]);
 
   const addToLists = (newList) => {
-    setLists((prevLists) => {
-      const existingListIndex = prevLists.findIndex((list) => list.name === newList.name);
-      if (existingListIndex !== -1) {
-        const updatedLists = [...prevLists];
-        updatedLists[existingListIndex] = {
-          ...updatedLists[existingListIndex],
-          codes: [...new Set([...updatedLists[existingListIndex].codes, ...newList.codes])],
-          images: [...new Set([...updatedLists[existingListIndex].images, ...newList.images])]
-        };
-        return updatedLists;
-      } else {
-        return [...prevLists, newList];
-      }
-    });
+    setLists([...lists, newList]);
+  };
+
+  const updateLists = (updatedLists) => {
+    setLists(updatedLists);
   };
 
   return (
@@ -35,7 +26,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/search" element={<Search addToLists={addToLists} />} />
-        <Route path="/lists" element={<Lists lists={lists} updateLists={setLists} />} />
+        <Route path="/lists" element={<Lists lists={lists} updateLists={updateLists} />} />
       </Routes>
     </div>
   );

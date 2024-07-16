@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import './styles.css';
 const httpDogBaseUrl = "https://http.dog/";
 
 const responseCodes = [
@@ -11,7 +11,7 @@ const getFilteredCodes = (filter) => {
   if (!filter.includes('x')) {
     return responseCodes.filter(code => code.toString() === filter);
   }
-  
+
   const regex = new RegExp(`^${filter.replace(/x/g, '\\d')}$`);
   return responseCodes.filter(code => regex.test(code.toString()));
 };
@@ -39,14 +39,17 @@ const Search = ({ addToLists }) => {
   };
 
   const handleSaveList = () => {
-    const newList = {
-      name: 'Dog List',
-      date: new Date().toLocaleString(),
-      codes: filteredCodes,
-      images: filteredCodes.map(code => `${httpDogBaseUrl}${code}.jpg`)
-    };
-    addToLists(newList);
-    alert('List saved successfully!');
+    const listName = prompt('Enter a name for the list:');
+    if (listName) {
+      const newList = {
+        name: listName,
+        date: new Date().toLocaleString(),
+        codes: filteredCodes,
+        images: filteredCodes.map(code => `${httpDogBaseUrl}${code}.jpg`)
+      };
+      addToLists(newList);
+      alert('List saved successfully!');
+    }
   };
 
   return (
