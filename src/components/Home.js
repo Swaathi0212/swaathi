@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <div>
+      <h1>Home Page</h1>
       <h1>Welcome to the Home Page</h1>
       <nav>
         <ul>
