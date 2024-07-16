@@ -8,7 +8,11 @@ const responseCodes = [
 ];
 
 const getFilteredCodes = (filter) => {
-  const regex = new RegExp(`^${filter.replace('x', '\\d')}$`);
+  if (!filter.includes('x')) {
+    return responseCodes.filter(code => code.toString() === filter);
+  }
+  
+  const regex = new RegExp(`^${filter.replace(/x/g, '\\d')}$`);
   return responseCodes.filter(code => regex.test(code.toString()));
 };
 
@@ -27,7 +31,9 @@ const Search = ({ addToLists }) => {
     const codes = getFilteredCodes(filter);
     if (codes.length === 0) {
       setInvalidCode(true);
+      setFilteredCodes([]);
     } else {
+      setInvalidCode(false);
       setFilteredCodes(codes);
     }
   };
