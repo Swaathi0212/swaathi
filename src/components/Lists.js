@@ -69,7 +69,7 @@ const Lists = ({ lists, updateLists }) => {
                   <p>Created on: {list.date}</p>
                   <form onSubmit={handleFilterSubmit}>
                     <label>
-                      Add by response codes:
+                      Add to list by response codes:
                       <input type="text" value={filter} onChange={handleFilterChange} />
                     </label>
                     <button type="submit">Add</button>
