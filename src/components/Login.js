@@ -6,8 +6,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleLogin = () => {
     if (username === 'user' && password === 'pass') {
       navigate('/search');
     } else {
@@ -18,25 +17,15 @@ const Login = () => {
   return (
     <div>
       <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username: </label>
-          <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-          />
-        </div>
-        <div>
-          <label>Password: </label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+      <div>
+        <label>Username:</label>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };

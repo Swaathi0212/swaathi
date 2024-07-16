@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const httpDogBaseUrl = "https://http.dog/";
 
 const responseCodes = [
-  100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 207, 208, 226,
-  300, 301, 302, 303, 304, 305, 307, 308,
-  400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413,
-  414, 415, 416, 417, 418, 421, 422, 423, 424, 425, 426, 428, 429, 431,
-  451, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511
+100,101,102,103,200,201,202,203,204,205,206,207,208,218,226,300,301,302,303,304,305,306,307,308,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,421,420,422,423,424,425,426,428,429,430,431,440,444,449,450,451,460,463,464,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,520,521,522,523,524,525,526,527,529,530,561,598,599,999
 ];
 
 const getFilteredCodes = (filter) => {
@@ -19,16 +15,21 @@ const getFilteredCodes = (filter) => {
 const Search = ({ addToLists }) => {
   const [filter, setFilter] = useState('');
   const [filteredCodes, setFilteredCodes] = useState([]);
-  const navigate = useNavigate();
+  const [invalidCode, setInvalidCode] = useState(false);
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
+    setInvalidCode(false);
   };
 
   const handleFilterSubmit = (e) => {
     e.preventDefault();
     const codes = getFilteredCodes(filter);
-    setFilteredCodes(codes);
+    if (codes.length === 0) {
+      setInvalidCode(true);
+    } else {
+      setFilteredCodes(codes);
+    }
   };
 
   const handleSaveList = () => {
@@ -40,12 +41,12 @@ const Search = ({ addToLists }) => {
     };
     addToLists(newList);
     alert('List saved successfully!');
-    navigate('/lists');
   };
 
   return (
     <div>
       <h1>Search Page</h1>
+      <Link to="/lists">Go to Lists</Link>
       <form onSubmit={handleFilterSubmit}>
         <label>
           Filter by response codes:
@@ -53,6 +54,7 @@ const Search = ({ addToLists }) => {
         </label>
         <button type="submit">Filter</button>
       </form>
+      {invalidCode && <p>INVALID CODE</p>}
       <div>
         {filteredCodes.length > 0 && (
           <div>
@@ -62,7 +64,7 @@ const Search = ({ addToLists }) => {
               {filteredCodes.map(code => (
                 <div key={code}>
                   <p>{code}</p>
-                  <img src={`${httpDogBaseUrl}${code}.jpg`} alt={`HTTP ${code}`} />
+                  <img className="dog-image" src={`${httpDogBaseUrl}${code}.jpg`} alt={`HTTP ${code}`} />
                 </div>
               ))}
             </div>
